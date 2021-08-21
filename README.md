@@ -2,6 +2,8 @@
 
 A visualisation project of road safety in Qld.
 
+The website uses the Materialize framework, licensed under the MIT license.
+
 # Datasets
 - [Road crash locations](https://www.data.qld.gov.au/dataset/crash-data-from-queensland-roads/resource/e88943c0-5968-4972-a15f-38e120d72ec0)
 - [Vehicle Crashes by Type](https://www.data.qld.gov.au/dataset/crash-data-from-queensland-roads/resource/f999155b-37f7-48aa-b5dd-644838130b0b)

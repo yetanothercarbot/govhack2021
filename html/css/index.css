@@ -1,0 +1,18 @@
+header, main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+
+.noUi-target {
+    padding: 0 17px;
+}
+.noUi-connects {
+    margin: 0 -17px;
+    width: calc(100% + 34px);
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Import Materialize CSS -->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection">
+  <!-- Import noUiSlider CSS -->
+  <link type="text/css" rel="stylesheet" href="css/nouislider.css"  media="screen,projection">
+  <!-- Import our own CSS -->
+  <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection">
+  <title>Qld Crash Visualisation</title>
+</head>
+<body>
+  <header><h1 class="header center">Road Accidents - a map</h1>
+  <ul id="slide-out" class="sidenav sidenav-fixed container">
+    <li><h4 class="center"><i class="material-icons">filter_list</i>Filter</h4></li>
+    <li><h5>Must include:</h5></li>
+    <li><div class="container"><label><input type="checkbox"><span>🛵 Motorcycle</span></label></div></li>
+    <li><div class="container"><label><input type="checkbox"><span>🚌 Bus</span></label></div></li>
+    <li><div class="container"><label><input type="checkbox"><span>🚛 Trucks</span></label></div></li>
+    <li><h5>Date</h5></li>
+    <li><div class="container"><div id="date-slider"></div></div></li>
+  </ul>
+  <main>
+    // Main content here
+  </main>
+  <script type="text/javascript" src="js/nouislider.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
