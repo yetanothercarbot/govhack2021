@@ -22,7 +22,10 @@ function initMap() {
     ],
     view: new ol.View({
       center: [16305945.73750275, -2206013.7191165173], // ol.proj.fromLonLat([144.25, -23.1]),
-      zoom: 6.13
+      zoom: 6.13,
+      minZoom: 6,
+      extent: [15523987.351939877, -3234740.7746837423, 17196894.49780245, -1255714.7470971544],
+      constrainOnlyCenter: true
     })
   });
   enableApply();

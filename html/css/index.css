@@ -20,3 +20,7 @@ header, main, footer {
   bottom: 0px;
   right: 0px;
 }
+
+.white-font {
+  color: white !important;
+}
