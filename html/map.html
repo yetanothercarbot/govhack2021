@@ -6,28 +6,36 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Import Materialize CSS -->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection">
+  <!-- Import OpenLayers (map) CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.6.1/css/ol.css" type="text/css">
   <!-- Import our own CSS -->
   <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection">
+
+  <!-- Import OpenLayers script -->
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.6.1/build/ol.js"></script>
+
   <title>Qld Crash Visualisation</title>
 </head>
 <body>
-  <header><h1 class="header center">Road Accidents - a map</h1>
   <ul id="slide-out" class="sidenav sidenav-fixed container">
-    <li><h4 class="center"><i class="material-icons">filter_list</i>Filter</h4></li>
-    <li><h5>Must include:</h5></li>
-    <li><div class="container"><label><input type="checkbox"><span>🛵 Motorcycle</span></label></div></li>
-    <li><div class="container"><label><input type="checkbox"><span>🚌 Bus</span></label></div></li>
-    <li><div class="container"><label><input type="checkbox"><span>🚛 Trucks</span></label></div></li>
-    <li><h5>Date</h5></li>
+    <li><h3 class="center">Road Accidents</h3></li>
+    <li><h5 class="center"><i class="material-icons">filter_list</i>Filter</h5></li>
+    <li><h6>Must include:</h6></li>
+    <li><div class="container"><label><input type="checkbox" id="motorcycle"><span>🛵 Motorcycle</span></label></div></li>
+    <li><div class="container"><label><input type="checkbox" id="bus"><span>🚌 Bus</span></label></div></li>
+    <li><div class="container"><label><input type="checkbox" id="truck"><span>🚛 Trucks</span></label></div></li>
+    <li><h6>Date</h6></li>
     <li><div class="container">
       <div class="input-field inline">
         <input type="number" id="dateMin" value="2001"><label for="dateMin">Year Start</label>
       </div>-<div class="input-field inline">
         <input type="number" id="dateMax" value="2020"><label for="dateMax">Year Stop</label>
       </div></div></li>
+      <li><a class="waves-effect green btn-large" id="applyFilters"><i class="material-icons right">send</i>Apply</a></li>
+      <li><div class="progress" id="loader"><div class="indeterminate"></div></div></li>
   </ul>
   <main>
-    // Main content here
+    <div id="map" class="map"></div>
   </main>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
