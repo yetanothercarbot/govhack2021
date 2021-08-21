@@ -1,16 +1,8 @@
-M.AutoInit();
+// Don't allow the year stop to be larger than year start
+function updateYearBounds() {
+  document.getElementById("dateMin").max = document.getElementById("dateMax").value;
+  document.getElementById("dateMax").min = document.getElementById("dateMin").value;
+}
 
-var slider = document.getElementById('date-slider');
-noUiSlider.create(slider, {
- start: [2001, 2020],
- connect: true,
- step: 1,
- orientation: 'horizontal', // 'horizontal' or 'vertical'
- range: {
-   'min': 2001,
-   'max': 2020
- },
- format: wNumb({
-   decimals: 0
- })
-});
+document.getElementById("dateMax").addEventListener("change", updateYearBounds);
+document.getElementById("dateMin").addEventListener("change", updateYearBounds);

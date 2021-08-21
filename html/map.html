@@ -6,8 +6,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Import Materialize CSS -->
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection">
-  <!-- Import noUiSlider CSS -->
-  <link type="text/css" rel="stylesheet" href="css/nouislider.css"  media="screen,projection">
   <!-- Import our own CSS -->
   <link type="text/css" rel="stylesheet" href="css/index.css"  media="screen,projection">
   <title>Qld Crash Visualisation</title>
@@ -21,12 +19,16 @@
     <li><div class="container"><label><input type="checkbox"><span>🚌 Bus</span></label></div></li>
     <li><div class="container"><label><input type="checkbox"><span>🚛 Trucks</span></label></div></li>
     <li><h5>Date</h5></li>
-    <li><div class="container"><div id="date-slider"></div></div></li>
+    <li><div class="container">
+      <div class="input-field inline">
+        <input type="number" id="dateMin" value="2001"><label for="dateMin">Year Start</label>
+      </div>-<div class="input-field inline">
+        <input type="number" id="dateMax" value="2020"><label for="dateMax">Year Stop</label>
+      </div></div></li>
   </ul>
   <main>
     // Main content here
   </main>
-  <script type="text/javascript" src="js/nouislider.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
 </body>
