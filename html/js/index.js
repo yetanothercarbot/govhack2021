@@ -38,6 +38,23 @@ function initMap() {
   enableApply();
 }
 
+function generatePoints() {
+  var data = new ol.source.Vector();
+  for (var i = 0; i < 40; i++) {
+    var point = new ol.geom.Point([Math.random() * 1672907.145862573 + 15523987.351939877, Math.random() * 1979026.0275865879 + -3234740.7746837423]);
+    var pointFeature = new ol.Feature({
+      geometry: point,
+      weight: Math.random() * 15
+    });
+    data.addFeature(pointFeature);
+  }
+  var heatmapLayer = new ol.layer.Heatmap({
+    source: data,
+    radius: Math.random() * 20
+  });
+  map.addLayer(heatmapLayer);
+}
+
 // Don't allow the year stop to be larger than year start
 function updateYearBounds() {
   document.getElementById("dateMin").max = document.getElementById("dateMax").value;

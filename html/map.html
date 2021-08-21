@@ -19,7 +19,7 @@
 <body>
   <ul id="slide-out" class="sidenav sidenav-fixed container">
     <li><h3 class="center">Road Accidents</h3></li>
-    <li><h5 class="center"><i class="material-icons">filter_list</i>Filter</h5></li>
+    <li><h5 class="center"><i class="material-icons">filter_list</i> Filter</h5></li>
     <li>
       <ul class="collapsible expandable">
         <li>
@@ -27,9 +27,9 @@
           <div class="collapsible-body">
             <div class="container">Show only crashes that include:</div>
             <ul>
-              <li><div class="container"><label><input type="checkbox" id="motorcycle"><span>🛵 Motorcycle</span></label></div></li>
-              <li><div class="container"><label><input type="checkbox" id="bus"><span>🚌 Bus</span></label></div></li>
-              <li><div class="container"><label><input type="checkbox" id="truck"><span>🚛 Trucks</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="motorcycle"><span>🛵 Motorcycle</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="bus"><span>🚌 Bus</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="truck"><span>🚛 Trucks</span></label></div></li>
             </ul>
           </div>
         </li>
@@ -58,11 +58,55 @@
           <div class="collapsible-header"><i class="material-icons">local_hospital</i>Severity</div>
           <div class="collapsible-body">
             <ul>
-              <li><div class="container"><label><input type="checkbox" id="fatality"><span>Fatality</span></label></div></li>
-              <li><div class="container"><label><input type="checkbox" id="hospitalisation"><span>Hospitalisation</span></label></div></li>
-              <li><div class="container"><label><input type="checkbox" id="medicalTreatment"><span>Medical Treatment</span></label></div></li>
-              <li><div class="container"><label><input type="checkbox" id="minorInjury"><span>Minor Injury</span></label></div></li>
-              <li><div class="container"><label><input type="checkbox" id="propertyDamage"><span>Property Damage Only</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="fatality" checked><span>Fatality</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="hospitalisation" checked><span>Hospitalisation</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="medicalTreatment" checked><span>Medical Treatment</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="minorInjury" checked><span>Minor Injury</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="propertyDamage" checked><span>Property Damage Only</span></label></div></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons">rv_hookup</i>Crash Nature</div>
+          <div class="collapsible-body">
+            <ul>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="angle" checked><span>Angle</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="fall" checked><span>Fall from vehicle</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="headon" checked><span>Head-On</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="animal" checked><span>Hit Animal</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="object" checked><span>Hit Object</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="parked" checked><span>Hit Parked Vehicles</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="hitPed" checked><span>Hit Pedestrian</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="noncollision" checked><span>Non-collision - miscellaneous</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="collision" checked><span>Collision - miscellaneous</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="overturned" checked><span>Overturned</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="rearend" checked><span>Rear-end</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="sideswipe" checked><span>Sideswipe</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="extLoad" checked><span>Hit by external load</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="intLoad" checked><span>Hit by internal load</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="nature_other" checked><span>Other</span></label></div></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons">group</i>Crash Type</div>
+          <div class="collapsible-body">
+            <ul>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="ped" checked><span>Pedestrian</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="singleVeh" checked><span>Single Vehicle</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="multiVeh" checked><span>Multi Vehicle</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="type_other" checked><span>Other</span></label></div></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons">flare</i>Lighting Conditions</div>
+          <div class="collapsible-body">
+            <ul>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="daylight" checked><span>Daylight</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="darkness1" checked><span>Darkness - Lit</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="darkness2" checked><span>Darkness - Not Lit</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" class="filled-in" id="dawndusk" checked><span>Dawn/Dusk</span></label></div></li>
             </ul>
           </div>
         </li>
