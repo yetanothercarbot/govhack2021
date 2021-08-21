@@ -21,6 +21,10 @@ header, main, footer {
   right: 0px;
 }
 
+label {
+  color: black !important;
+}
+
 .white-font {
   color: white !important;
 }

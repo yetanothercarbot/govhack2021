@@ -20,19 +20,56 @@
   <ul id="slide-out" class="sidenav sidenav-fixed container">
     <li><h3 class="center">Road Accidents</h3></li>
     <li><h5 class="center"><i class="material-icons">filter_list</i>Filter</h5></li>
-    <li><h6>Must include:</h6></li>
-    <li><div class="container"><label><input type="checkbox" id="motorcycle"><span>🛵 Motorcycle</span></label></div></li>
-    <li><div class="container"><label><input type="checkbox" id="bus"><span>🚌 Bus</span></label></div></li>
-    <li><div class="container"><label><input type="checkbox" id="truck"><span>🚛 Trucks</span></label></div></li>
-    <li><h6>Date</h6></li>
-    <li><div class="container">
-      <div class="input-field inline">
-        <input type="number" id="dateMin" value="2001"><label for="dateMin">Year Start</label>
-      </div>-<div class="input-field inline">
-        <input type="number" id="dateMax" value="2020"><label for="dateMax">Year Stop</label>
-      </div></div></li>
-      <li><a class="waves-effect green btn-large" id="applyFilters"><i class="material-icons right white-font">send</i><b>Apply</b></a></li>
-      <li><div class="progress" id="loader"><div class="indeterminate"></div></div></li>
+    <li>
+      <ul class="collapsible expandable">
+        <li>
+          <div class="collapsible-header"><i class="material-icons">directions_bus</i>Vehicles</div>
+          <div class="collapsible-body">
+            <div class="container">Show only crashes that include:</div>
+            <ul>
+              <li><div class="container"><label><input type="checkbox" id="motorcycle"><span>🛵 Motorcycle</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" id="bus"><span>🚌 Bus</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" id="truck"><span>🚛 Trucks</span></label></div></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons">date_range</i>Year Range</div>
+          <div class="collapsible-body">
+            <ul>
+              <li>
+                <div class="container">
+                  <div class="input-field inline">
+                    <input type="number" id="dateMin" value="2001"><label for="dateMin">Year Start</label>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="container">
+                  <div class="input-field inline">
+                    <input type="number" id="dateMax" value="2020"><label for="dateMax">Year Stop</label>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header"><i class="material-icons">local_hospital</i>Severity</div>
+          <div class="collapsible-body">
+            <ul>
+              <li><div class="container"><label><input type="checkbox" id="fatality"><span>Fatality</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" id="hospitalisation"><span>Hospitalisation</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" id="medicalTreatment"><span>Medical Treatment</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" id="minorInjury"><span>Minor Injury</span></label></div></li>
+              <li><div class="container"><label><input type="checkbox" id="propertyDamage"><span>Property Damage Only</span></label></div></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <li><a class="waves-effect green btn-large" id="applyFilters"><i class="material-icons right white-font">send</i><b>Apply</b></a></li>
+    <li><div class="progress" id="loader"><div class="indeterminate"></div></div></li>
   </ul>
   <main>
     <div id="map" class="map"></div>

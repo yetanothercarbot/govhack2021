@@ -2,13 +2,20 @@ document.getElementById("dateMax").addEventListener("change", updateYearBounds);
 document.getElementById("dateMin").addEventListener("change", updateYearBounds);
 document.getElementById("applyFilters").addEventListener("pointerup", updateMap);
 
+initControls();
 var map;
 initMap();
 
-// Don't allow the year stop to be larger than year start
-function updateYearBounds() {
-  document.getElementById("dateMin").max = document.getElementById("dateMax").value;
-  document.getElementById("dateMax").min = document.getElementById("dateMin").value;
+function initControls() {
+  // Initialise the collapsible list
+  var elem = document.querySelector('.collapsible.expandable');
+  var instance = M.Collapsible.init(elem, {
+    accordion: false
+  });
+
+  // Initialise all dropdowns
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems);
 }
 
 function initMap() {
@@ -29,6 +36,12 @@ function initMap() {
     })
   });
   enableApply();
+}
+
+// Don't allow the year stop to be larger than year start
+function updateYearBounds() {
+  document.getElementById("dateMin").max = document.getElementById("dateMax").value;
+  document.getElementById("dateMax").min = document.getElementById("dateMin").value;
 }
 
 function disableApply() {
