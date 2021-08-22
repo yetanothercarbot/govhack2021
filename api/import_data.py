@@ -235,7 +235,7 @@ async def read_csv_by_line(url):
                 if keys == None:
                     keys = dataline
                 else:
-                    data = {k:v for keys, dataline in zip(L1,L2)}
+                    data = dict(zip(keys,dataline))
                     yield data
 
 '''
