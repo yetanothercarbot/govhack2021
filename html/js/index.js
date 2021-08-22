@@ -281,7 +281,7 @@ function updateMap() {
   var xhttp = new XMLHttpRequest();
   // xhttp.addEventListener("readystatechange", parseData);
   xhttp.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
+      if (xhttp.readyState === 4 && xhttp.status === 200) {
           parseData();
       }
   };
