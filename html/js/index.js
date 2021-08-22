@@ -90,8 +90,7 @@ function initMap() {
   enableApply();
 }
 
-function parseData() {
-  var returnedData = JSON.parse(this.responseText);
+function parseData(returnedData) {
   var vector = new ol.source.Vector();
   returnedData.forEach((item, i) => {
     var point = new ol.geom.Point(ol.proj.fromLonLat(item.location[1], item.location[0]));
@@ -282,7 +281,7 @@ function updateMap() {
   // xhttp.addEventListener("readystatechange", parseData);
   xhttp.onreadystatechange = function () {
       if (xhttp.readyState === 4 && xhttp.status === 200) {
-          parseData();
+          parseData(JSON.parse(xhttp.responseText));
       }
   };
   xhttp.open("POST", "http://api.crashmap.xyz/list_crashes", true);
