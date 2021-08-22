@@ -132,7 +132,7 @@ function generateWarning(type="none") {
     M.toast({html: "Error: Something happened", classes: "red rounded"});
   } else {
     enableApply();
-    M.toast({html: "Error: No " + type + " type checked", classes: "red rounded"});
+    M.toast({html: "Error: No " + type + " type selected", classes: "red rounded"});
   }
 }
 
@@ -189,7 +189,6 @@ function updateMap() {
   for (const [key, value] of Object.entries(idList.vehicles)) {
     if (document.getElementById(key).checked) {
       requestBody.vehicle_types.push(value);
-      i++;
     }
   }
   if (requestBody.vehicle_types.length == 0) {
