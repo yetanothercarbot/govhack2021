@@ -17,9 +17,9 @@
   <title>Qld Crash Visualisation</title>
 </head>
 <body>
-  <ul id="slide-out" class="sidenav sidenav-fixed container">
+  <ul id="slide-out" class="sidenav sidenav-fixed">
     <li><h3 class="center">Road Accidents</h3></li>
-    <li><h5 class="center"><i class="material-icons">filter_list</i> Filter</h5></li>
+    <li><h5 class="center">Filter</h5></li>
     <li>
       <ul class="collapsible expandable" id="sidebar">
         <li>
@@ -139,6 +139,7 @@
   </ul>
   <main>
     <div id="map" class="map"></div>
+    <a data-target="slide-out" id="showFilter" class="sidenav-trigger white rounded"><i class="material-icons">sort</i></a>
   </main>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script type="text/javascript" src="js/index.js"></script>

@@ -28,3 +28,13 @@ label {
 .white-font {
   color: white !important;
 }
+
+.sidenav-trigger {
+  position: absolute;
+  z-index: 99;
+  top: 20px;
+  right: 20px;
+  border-radius: 90px !important;
+  cursor: pointer;
+  user-select: none;
+}

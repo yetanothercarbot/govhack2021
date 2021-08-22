@@ -49,6 +49,7 @@ idList = {
 document.getElementById("dateMax").addEventListener("change", updateYearBounds);
 document.getElementById("dateMin").addEventListener("change", updateYearBounds);
 document.getElementById("applyFilters").addEventListener("pointerup", updateMap);
+document.getElementById("showFilter").addEventListener("pointerup", showFilter);
 
 initControls();
 var map;
@@ -109,6 +110,10 @@ function updateYearBounds() {
   document.getElementById("dateMax").min = document.getElementById("dateMin").value;
 }
 
+function showFilter() {
+  M.Sidenav.getInstance(document.getElementById("slide-out")).open();
+}
+
 function disableApply() {
   elementList = document.querySelectorAll("input").forEach((item) => {
     item.disabled = true;
@@ -126,7 +131,7 @@ function enableApply() {
   document.getElementById("loader").style.display = "none";
 }
 
-function generateWarning(type="none") {
+function generateWarning(type = "none") {
   enableApply();
   if(type == "none") {
     M.toast({html: "Error: Something happened", classes: "red rounded"});
@@ -142,8 +147,9 @@ function updateMap() {
   requestBody = {};
   boundingBox = map.getView().calculateExtent(map.getSize());
 
-  requestBody.corner1 = ol.proj.transform(boundingBox.slice(0,2), 'EPSG:3857', 'EPSG:4326');
-  requestBody.corner2 = ol.proj.transform(boundingBox.slice(2,4), 'EPSG:3857', 'EPSG:4326');
+  // These are commented out so that data from the entire state is fetched.
+  // requestBody.corner1 = ol.proj.transform(boundingBox.slice(0,2), 'EPSG:3857', 'EPSG:4326');
+  //requestBody.corner2 = ol.proj.transform(boundingBox.slice(2,4), 'EPSG:3857', 'EPSG:4326');
   requestBody.yearmax = document.getElementById("dateMax").value;
   requestBody.yearmin = document.getElementById("dateMin").value;
   requestBody.vehicle_types = [];
@@ -246,6 +252,7 @@ function updateMap() {
   }
   console.dir(requestBody);
 
+  // Finally start the request
   // Set timeout
   setTimeout(enableApply, 5000);
 }
