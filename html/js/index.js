@@ -93,7 +93,7 @@ function initMap() {
 function parseData(returnedData) {
   var vector = new ol.source.Vector();
   returnedData.forEach((item, i) => {
-    var point = new ol.geom.Point(ol.proj.fromLonLat((item.location[1], item.location[0]), "EPSG:4283"));
+    var point = new ol.geom.Point((item.location[1], item.location[0]), "EPSG:4283");
     var pointFeature = new ol.Feature({
       geometry: point,
       weight: item.SeverityIndex
