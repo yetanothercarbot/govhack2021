@@ -351,66 +351,70 @@ async def import_crashdata(db):
     num = 1
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
-            unknown_to_zero = (
-                    'Crash_Ref_Number',
-                    'Loc_Post_Code',
-                    'Count_Casualty_Fatality',
-                    'Count_Casualty_Hospitalised',
-                    'Count_Casualty_MedicallyTreated',
-                    'Count_Casualty_MinorInjury',
-                    'Count_Unit_Car',
-                    'Count_Unit_Motorcycle_Moped',
-                    'Count_Unit_Truck',
-                    'Count_Unit_Bus',
-                    'Count_Unit_Bicycle',
-                    'Count_Unit_Pedestrian',
-                    'Count_Unit_Other',
-                )
-            for key in unknown_to_zero:
-                if key in data:
-                    try:
-                        data[key] = int(data[key])
-                    except:
-                        data[key] = 0
+            try:
+                if (int(data['Crash_Longitude_GDA94']) == 0):
+                    unknown_to_zero = (
+                            'Crash_Ref_Number',
+                            'Loc_Post_Code',
+                            'Count_Casualty_Fatality',
+                            'Count_Casualty_Hospitalised',
+                            'Count_Casualty_MedicallyTreated',
+                            'Count_Casualty_MinorInjury',
+                            'Count_Unit_Car',
+                            'Count_Unit_Motorcycle_Moped',
+                            'Count_Unit_Truck',
+                            'Count_Unit_Bus',
+                            'Count_Unit_Bicycle',
+                            'Count_Unit_Pedestrian',
+                            'Count_Unit_Other',
+                        )
+                    for key in unknown_to_zero:
+                        if key in data:
+                            try:
+                                data[key] = int(data[key])
+                            except:
+                                data[key] = 0
 
-            args = [
-                    data['Crash_Ref_Number'],
-                    data['Crash_Severity'],
-                    data['Crash_Nature'],
-                    data['Crash_Type'],
-                    data['Crash_Roadway_Feature'],
-                    data['Crash_Traffic_Control'],
-                    data['Crash_Atmospheric_Condition'],
-                    datetime.datetime.strptime(f"{data['Crash_Year']} {data['Crash_Month']} {data['Crash_Hour']}", "%Y %B %H"),
-                    f"SRID=4283;POINT({data['Crash_Longitude_GDA94']} {data['Crash_Latitude_GDA94']})",
-                    data['Crash_Street'],
-                    data['Crash_Street_Intersecting'],
-                    data['Loc_Suburb'],
-                    data['Loc_Local_Government_Area'],
-                    data['Loc_Post_Code'],
-                    int(data['Crash_Speed_Limit'].split(' ')[-2]),
-                    data['Crash_Road_Surface_Condition'].startswith('Sealed'),
-                    data['Crash_Road_Surface_Condition'].endswith('Dry'),
-                    data['Crash_Lighting_Condition'] == 'Daylight',
-                    data['Crash_Lighting_Condition'] == 'Darkness - Lighted',
-                    data['Crash_Lighting_Condition'] == 'Dawn/Dusk',
-                    data['DCA_Key_Approach_Dir'],
-                    data['Crash_DCA_Description'],
-                    data['Crash_DCA_Group_Description'],
-                    data['Count_Casualty_Fatality'],
-                    data['Count_Casualty_Hospitalised'],
-                    data['Count_Casualty_MedicallyTreated'],
-                    data['Count_Casualty_MinorInjury'],
-                    data['Count_Unit_Car'],
-                    data['Count_Unit_Motorcycle_Moped'],
-                    data['Count_Unit_Truck'],
-                    data['Count_Unit_Bus'],
-                    data['Count_Unit_Bicycle'],
-                    data['Count_Unit_Pedestrian'],
-                    data['Count_Unit_Other']
-                ]
+                    args = [
+                            data['Crash_Ref_Number'],
+                            data['Crash_Severity'],
+                            data['Crash_Nature'],
+                            data['Crash_Type'],
+                            data['Crash_Roadway_Feature'],
+                            data['Crash_Traffic_Control'],
+                            data['Crash_Atmospheric_Condition'],
+                            datetime.datetime.strptime(f"{data['Crash_Year']} {data['Crash_Month']} {data['Crash_Hour']}", "%Y %B %H"),
+                            f"SRID=4283;POINT({data['Crash_Longitude_GDA94']} {data['Crash_Latitude_GDA94']})",
+                            data['Crash_Street'],
+                            data['Crash_Street_Intersecting'],
+                            data['Loc_Suburb'],
+                            data['Loc_Local_Government_Area'],
+                            data['Loc_Post_Code'],
+                            int(data['Crash_Speed_Limit'].split(' ')[-2]),
+                            data['Crash_Road_Surface_Condition'].startswith('Sealed'),
+                            data['Crash_Road_Surface_Condition'].endswith('Dry'),
+                            data['Crash_Lighting_Condition'] == 'Daylight',
+                            data['Crash_Lighting_Condition'] == 'Darkness - Lighted',
+                            data['Crash_Lighting_Condition'] == 'Dawn/Dusk',
+                            data['DCA_Key_Approach_Dir'],
+                            data['Crash_DCA_Description'],
+                            data['Crash_DCA_Group_Description'],
+                            data['Count_Casualty_Fatality'],
+                            data['Count_Casualty_Hospitalised'],
+                            data['Count_Casualty_MedicallyTreated'],
+                            data['Count_Casualty_MinorInjury'],
+                            data['Count_Unit_Car'],
+                            data['Count_Unit_Motorcycle_Moped'],
+                            data['Count_Unit_Truck'],
+                            data['Count_Unit_Bus'],
+                            data['Count_Unit_Bicycle'],
+                            data['Count_Unit_Pedestrian'],
+                            data['Count_Unit_Other']
+                        ]
 
-            await stmt.executemany([args])
+                    await stmt.executemany([args])
+            except:
+                print(f"Record failed")
 
             sys.stdout.write("\r Processing record: %i" % num)
             sys.stdout.flush()
