@@ -176,8 +176,8 @@ function updateMap() {
   // These are commented out so that data from the entire state is fetched.
   // requestBody.corner1 = ol.proj.transform(boundingBox.slice(0,2), 'EPSG:3857', 'EPSG:4326');
   //requestBody.corner2 = ol.proj.transform(boundingBox.slice(2,4), 'EPSG:3857', 'EPSG:4326');
-  requestBody.yearmax = document.getElementById("dateMax").value;
-  requestBody.yearmin = document.getElementById("dateMin").value;
+  requestBody.yearmax = Integer.parseInt(document.getElementById("dateMax").value);
+  requestBody.yearmin = Integer.parseInt(document.getElementById("dateMin").value);
   requestBody.vehicle_types = [];
   requestBody.severity = [];
   requestBody.weather = [];
