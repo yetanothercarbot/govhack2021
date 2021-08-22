@@ -90,7 +90,7 @@ function initMap() {
   enableApply();
 }
 
-function generatePoints() {
+function generateHeatMapPoints() {
   var data = new ol.source.Vector();
   for (var i = 0; i < 40; i++) {
     var point = new ol.geom.Point([Math.random() * 1672907.145862573 + 15523987.351939877, Math.random() * 1979026.0275865879 + -3234740.7746837423]);
