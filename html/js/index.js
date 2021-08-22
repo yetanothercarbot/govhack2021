@@ -112,10 +112,9 @@ function parseData(returnedData) {
       source: vector,
       radius: 8
     });
+    heatmapLayer.set("name", "heatmap");
+    map.addLayer(heatmapLayer);
   }
-
-  heatmapLayer.set("name", "heatmap");
-  map.addLayer(heatmapLayer);
   enableApply();
 }
 
