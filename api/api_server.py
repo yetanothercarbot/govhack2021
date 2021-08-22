@@ -59,7 +59,7 @@ class Webserver:
         # Boundaries
         if 'corner1' in request_json and 'corner2' in request_json:
              conditions.append(
-                ("Location @ ST_MakeEnvelope ({}, {}, {}, {}, 3857)",
+                ("Location::geometry @ ST_MakeEnvelope ({}, {}, {}, {}, 3857)",
                     [request_json['corner1'][0], request_json['corner1'][1],
                     request_json['corner2'][0], request_json['corner2'][1]]))
 
