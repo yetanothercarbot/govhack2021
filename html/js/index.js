@@ -259,6 +259,11 @@ function updateMap() {
   }
   console.dir(requestBody);
 
+  var xhttp = new XMLHttpRequest();
+  xhttp.addEventListener("readystatechange", parseOutput);
+  xhttp.open("POST", "list_crashes", true);
+  xhttp.send(JSON.stringify(requestBody));
+
   // Finally start the request
   // Set timeout
   setTimeout(enableApply, 5000);
