@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS CrashLocations (
     RoadwayFeatureID SMALLINT,
     TrafficControlID SMALLINT,
     AtmosphericConditionID SMALLINT,
-    CrashDate DATETIME NOT NULL,
+    CrashDate TIMESTAMP NOT NULL,
     Location GEOGRAPHY NOT NULL,
     Street VARCHAR(255),
     StreetIntersecting VARCHAR(255),
