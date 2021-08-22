@@ -37,6 +37,12 @@ idList = {
     "singleVeh": 2,
     "multiVeh": 3,
     "type_other": 4
+  },
+  "weather": {
+    "clear": 1,
+    "raining": 2,
+    "fog": 3,
+    "smoke": 4
   }
 }
 
@@ -120,8 +126,18 @@ function enableApply() {
   document.getElementById("loader").style.display = "none";
 }
 
+function generateWarning(type="none") {
+  enableApply();
+  if(type == "none") {
+    M.toast({html: "Error: Something happened", classes: "red rounded"});
+  } else {
+    enableApply();
+    M.toast({html: "Error: No " + type + " type checked", classes: "red rounded"});
+  }
+}
+
 function updateMap() {
-  setTimeout(disableApply, 200);
+  disableApply();
 
   requestBody = {};
   boundingBox = map.getView().calculateExtent(map.getSize());
@@ -132,17 +148,74 @@ function updateMap() {
   requestBody.yearmin = document.getElementById("dateMin").value;
   requestBody.vehicle_types = [];
   requestBody.severity = [];
+  requestBody.weather = [];
+  requestBody.nature = [];
+  requestBody.type = [];
 
+  // Handle sealed/unsealed roads
+  if(!document.getElementById("sealed").checked && !document.getElementById("unsealed").checked) {
+    generateWarning("road");
+    M.Collapsible.getInstance(document.getElementById("sidebar")).open(7);
+    return;
+  }
+  if(document.getElementById("sealed").checked != document.getElementById("unsealed").checked) {
+    requestBody.sealed = document.getElementById("sealed").checked;
+  }
 
+  // Handle lighting conditions
+  if(!document.getElementById("daylight").checked && !document.getElementById("darkness1").checked
+        && !document.getElementById("darkness2").checked
+        && !document.getElementById("dawndusk").checked) {
+    generateWarning("lighting conditions");
+    M.Collapsible.getInstance(document.getElementById("sidebar")).open(5);
+    return;
+  }
+  if(!(document.getElementById("daylight").checked && document.getElementById("darkness1").checked
+        && document.getElementById("darkness2").checked && document.getElementById("dawndusk").checked)) {
+    if(document.getElementById("darkness1").checked != document.getElementById("darkness2").checked) {
+      requestBody.lit = document.getElementById("darkness1").checked;
+    }
+
+    if(document.getElementById("daylight").checked
+        && !(document.getElementById("darkness1").checked || document.getElementById("darkness2"))) {
+      requestBody.day = document.getElementById("daylight").checked;
+    }
+
+    requestBody.partialDaylight = document.getElementById("dawndusk").checked;
+  }
+
+  // Handle list of vehicles
   for (const [key, value] of Object.entries(idList.vehicles)) {
     if (document.getElementById(key).checked) {
       requestBody.vehicle_types.push(value);
     }
   }
 
+  // Handle list of severity
   for (const [key, value] of Object.entries(idList.severity)) {
     if (document.getElementById(key).checked) {
-      requestBody.
+      requestBody.severity.push(value);
+    }
+  }
+
+  // Handle list of crash natures
+  for (const [key, value] of Object.entries(idList.nature)) {
+    if (document.getElementById(key).checked) {
+      requestBody.nature.push(value);
+    }
+  }
+
+  // Handle list of types
+  for (const [key, value] of Object.entries(idList.crashType)) {
+    if (document.getElementById(key).checked) {
+      requestBody.type.push(value);
+    }
+  }
+
+  // Handle list of weather
+  for (const [key, value] of Object.entries(idList.weather)) {
+    if (document.getElementById(key).checked) {
+      requestBody.weather.push(value);
     }
   }
   console.dir(requestBody);
