@@ -352,7 +352,7 @@ async def import_crashdata(db):
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
             try:
-                if (int(data['Crash_Longitude_GDA94']) == 0):
+                if data['Crash_Longitude_GDA94'] == '0':
                     unknown_to_zero = (
                             'Crash_Ref_Number',
                             'Loc_Post_Code',
