@@ -100,15 +100,16 @@ function parseData(returnedData) {
     });
     vector.addFeature(pointFeature);
   });
-  var layers = new Array();
-  map.getLayers().getArray()
+  var heatmapLayers = map.getLayers().getArray()
       .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
-      .forEach(layer => layers.push(layer));
-  var heatmapLayer = new ol.layer.Heatmap({
-    source: vector,
-    radius: 8
-  });
-  layers.forEach(layer => map.removeLayer(layer))
+
+  if heatmapLayers.length > 0:
+      heatmapLayers[0].setSource(vector);
+  else:
+    var heatmapLayer = new ol.layer.Heatmap({
+      source: vector,
+      radius: 8
+    });
   heatmapLayer.set("name", "heatmap")
   map.addLayer(heatmapLayer);
 }
