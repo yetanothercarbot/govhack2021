@@ -84,13 +84,13 @@ CREATE TABLE IF NOT EXISTS CrashLocations (
         REFERENCES CrashNature(ID),
     CONSTRAINT fk_type
         FOREIGN KEY(TypeID)
-        REFERENCES CrashType(ID)
+        REFERENCES CrashType(ID),
     CONSTRAINT fk_roadway_feature
         FOREIGN KEY(RoadwayFeatureID)
-        REFERENCES RoadwayFeature(ID)
+        REFERENCES RoadwayFeature(ID),
     CONSTRAINT fk_traffic_control
         FOREIGN KEY(TrafficControlID)
-        REFERENCES TrafficControl(ID)
+        REFERENCES TrafficControl(ID),
     CONSTRAINT fk_atmospheric_condition
         FOREIGN KEY(AtmosphericConditionID)
         REFERENCES AtmosphericCondition(ID)

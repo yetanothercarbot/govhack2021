@@ -1,3 +1,5 @@
+do $$
+BEGIN
 IF EXISTS (SELECT FROM pg_catalog.pg_tables
               WHERE  tablename  = 'CrashSeverity') THEN
       RAISE NOTICE 'Table CrashSeverity already exists.';
@@ -136,3 +138,5 @@ ELSE
     (3, 'Fog'),
     (4, 'Smoke/Dust');
 END IF;
+END
+$$
