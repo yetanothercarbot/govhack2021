@@ -127,7 +127,7 @@ class Webserver:
     '''
     Build the web server and setup routes
     '''
-    async def build_server(address, port):
+    async def build_server(self, address, port):
         app = web.Application(loop=self.loop)
         app.router.add_route('POST', "/list_crashes", self.list_crashes)
         app.router.add_route('POST', "/get_crash", self.list_crashes)
