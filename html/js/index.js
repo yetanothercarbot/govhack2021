@@ -115,7 +115,7 @@ function parseData(returnedData) {
     heatmapLayer.set("name", "heatmap");
     map.addLayer(heatmapLayer);
   }
-  enableApply();
+  //enableApply();
 }
 
 function generateHeatMapPoints() {
