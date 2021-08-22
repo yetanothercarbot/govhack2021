@@ -91,27 +91,27 @@ function initMap() {
 }
 
 function parseData(returnedData) {
+  map.getLayers().getArray()
+      .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
+      .forEach(layer => map.removeLayer(layer));
   var vector = new ol.source.Vector();
   returnedData.forEach((item, i) => {
-    var point = new ol.geom.Point((item.location[1], item.location[0]), "EPSG:4283");
+    var point = new ol.geom.Point(ol.proj.fromLonLat([item.location[0], item.location[1]]));
     var pointFeature = new ol.Feature({
       geometry: point,
-      weight: item.SeverityIndex
+      weight: item.severityindex/10
     });
     vector.addFeature(pointFeature);
   });
   var heatmapLayer = new ol.layer.Heatmap({
     source: vector,
-    radius: 10
+    radius: 8
   });
   heatmapLayer.set("name", "heatmap")
   map.addLayer(heatmapLayer);
 }
 
 function generateHeatMapPoints() {
-  map.getLayers().getArray()
-      .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
-      .forEach(layer => map.removeLayer(layer));
   var data = new ol.source.Vector();
   for (var i = 0; i < 500; i++) {
     var point = new ol.geom.Point([Math.random() * 1672907.145862573 + 15523987.351939877, Math.random() * 1979026.0275865879 + -3234740.7746837423]);
@@ -121,10 +121,15 @@ function generateHeatMapPoints() {
     });
     data.addFeature(pointFeature);
   }
+  var layers = new Array();
+  map.getLayers().getArray()
+      .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
+      .forEach(layer => layers.push(layer));
   var heatmapLayer = new ol.layer.Heatmap({
     source: data,
     radius: Math.random() * 15
   });
+  layers.forEach(layer => map.removeLayer(layer))
   heatmapLayer.set("name", "heatmap")
   map.addLayer(heatmapLayer);
 }
