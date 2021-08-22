@@ -331,7 +331,7 @@ async def import_crashdata(db):
             $35 -- InvolvedOther
         );
     """
-    stmt = await conn.prepare(insert_row)
+    stmt = await db.prepare(insert_row)
 
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
