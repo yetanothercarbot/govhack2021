@@ -279,7 +279,7 @@ function updateMap() {
   console.dir(requestBody);
 
   var xhttp = new XMLHttpRequest();
-  xhttp.addEventListener("readystatechange", parseOutput);
+  xhttp.addEventListener("readystatechange", parseData);
   xhttp.open("POST", "api.crashmap.xyz/list_crashes", true);
   xhttp.send(JSON.stringify(requestBody));
 
