@@ -11,13 +11,15 @@ The datasets being used are:
 - Road census data
 '''
 import json
-import requests
-from contextlib import closing
-import csv
 import asyncio
 import asyncpg
 import aiohttp
 import datetime
+
+import shapely.geometry
+import shapely.wkb
+from shapely.geometry.base import BaseGeometry
+
 
 ROAD_CENSUS_URLS = {
     2009: "http://www.tmr.qld.gov.au/-/media/aboutus/corpinfo/Open%20data/trafficcensus/trafficcensus2004-2009.csv",
@@ -37,8 +39,6 @@ ROAD_CENSUS_URLS = {
 ROAD_CRASHES_URL: "https://www.data.qld.gov.au/dataset/f3e0ca94-2d7b-44ee-abef-d6b06e9b0729/resource/e88943c0-5968-4972-a15f-38e120d72ec0/download/1_crash_locations.csv"
 
 CREATE_CRASH_LOCATIONS_TABLE = """
-INSERT
-
 IF EXISTS (SELECT FROM pg_catalog.pg_tables
               WHERE  tablename  = 'CrashSeverity') THEN
       RAISE NOTICE 'Table CrashSeverity already exists.';
@@ -426,14 +426,15 @@ async def import_crashdata(db):
         (
             $1,
             (),
-            (
-                SELECT AADT
-                FROM CensusLocations cl
-                WHERE
-                    EXTRACT(YEAR FROM TIMESTAMP $8) <= cl.Year
-                ORDER BY ST_Distance('SRID=4283;POINT($9 $10)', cl.Locations, false) DESC
-                LIMIT 1
-            ),
+            1,
+            --(
+            --    SELECT AADT
+            --    FROM CensusLocations cl
+            --    WHERE
+            --        EXTRACT(YEAR FROM TIMESTAMP $8) <= cl.Year
+            --    ORDER BY ST_Distance('SRID=4283;POINT($9 $10)', cl.Locations, false) DESC
+            --    LIMIT 1
+            --),
             (SELECT ID FROM CrashSeverity WHERE NAME = $2),
             (SELECT ID FROM CrashNature WHERE NAME = $3),
             (SELECT ID FROM CrashType WHERE NAME = $4),
@@ -469,10 +470,11 @@ async def import_crashdata(db):
             $35 -- InvolvedOther
         );
     """
-    queue = asyncio.Queue(maxsize=100)
+    stmt = await conn.prepare(insert_row)
+
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
-            queue.append([
+            args = [
                     data['Crash_Ref_Number'],
                     data['Crash_Severity'],
                     data['Crash_Nature'],
@@ -508,21 +510,29 @@ async def import_crashdata(db):
                     data['Count_Unit_Bicycle'],
                     data['Count_Unit_Pedestrian'],
                     data['Count_Unit_Other']
-                ])
+                ]
 
-    print(f"Copied crashdata, response: {result}")
+            await stmt.executemany([args])
 
+    print(f"Copied crashdata.")
 
 async def run():
     db = await asyncpg.connect(user=settings['psql_user'], password=settings['psql_pass'],
         database=settings['psql_dbname'], host=settings['psql_host'])
 
+    def decode_geometry(wkb):
+        return shapely.wkb.loads(wkb)
 
-    values = await conn.fetch(
-        'SELECT * FROM mytable WHERE id = $1',
-        10,
+    await db.set_type_codec(
+        'geography',
+        decoder=decode_geometry,
+        format='binary',
     )
-    await conn.close()
+
+    await db.execute(CREATE_CRASH_LOCATIONS_TABLE)
+    await db.execute(CREATE_ROAD_CENSUS_TABLE)
+
+    await import_crashdata(db)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run())
