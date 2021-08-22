@@ -158,7 +158,7 @@ async def start_webserver(loop):
         database=settings['psql_dbname'], host=settings['psql_host'], init=init_connection)
 
     webserver = Webserver(pool, loop)
-    await webserver.build_server(loop, 'localhost', 9999)
+    await webserver.build_server('localhost', 9999)
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
