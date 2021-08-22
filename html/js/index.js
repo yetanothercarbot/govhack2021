@@ -184,11 +184,18 @@ function updateMap() {
     requestBody.partialDaylight = document.getElementById("dawndusk").checked;
   }
 
+
   // Handle list of vehicles
   for (const [key, value] of Object.entries(idList.vehicles)) {
     if (document.getElementById(key).checked) {
       requestBody.vehicle_types.push(value);
+      i++;
     }
+  }
+  if (requestBody.vehicle_types.length == 0) {
+    generateWarning("vehicle");
+    M.Collapsible.getInstance(document.getElementById("sidebar")).open(0);
+    return;
   }
 
   // Handle list of severity
@@ -197,12 +204,22 @@ function updateMap() {
       requestBody.severity.push(value);
     }
   }
+  if (requestBody.severity.length == 0) {
+    generateWarning("severity");
+    M.Collapsible.getInstance(document.getElementById("sidebar")).open(2);
+    return;
+  }
 
   // Handle list of crash natures
   for (const [key, value] of Object.entries(idList.nature)) {
     if (document.getElementById(key).checked) {
       requestBody.nature.push(value);
     }
+  }
+  if (requestBody.nature.lenght == 0) {
+    generateWarning("crash nature");
+    M.Collapsible.getInstance(document.getElementById("sidebar")).open(3);
+    return;
   }
 
   // Handle list of types
@@ -211,12 +228,22 @@ function updateMap() {
       requestBody.type.push(value);
     }
   }
+  if (requestBody.type.length == 0) {
+    generateWarning("crash type");
+    M.Collapsible.getInstance(document.getElementById("sidebar")).open(4);
+    return;
+  }
 
   // Handle list of weather
   for (const [key, value] of Object.entries(idList.weather)) {
     if (document.getElementById(key).checked) {
       requestBody.weather.push(value);
     }
+  }
+  if (requestBody.weather.length == 0) {
+    generateWarning("weather");
+    M.Collapsible.getInstance(document.getElementById("sidebar")).open(6);
+    return;
   }
   console.dir(requestBody);
 
