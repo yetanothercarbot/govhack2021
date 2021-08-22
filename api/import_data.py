@@ -317,32 +317,32 @@ async def import_crashdata(db):
             (SELECT ID FROM TrafficControl WHERE NAME = $6),
             (SELECT ID FROM AtmosphericCondition WHERE NAME = $7),
             $8, -- CrashDate
-            ST_GeographyFromText('SRID=4283;POINT($9::float $10::float)'),
-            $11, -- Street
-            $12, -- StreetIntersecting
-            $13, -- Suburb
-            $14, -- Council
-            $15, -- Postcode
-            $16, -- SpeedLimit
-            $17, -- Sealed
-            $18, -- Dry
-            $19, -- Day
-            $20, -- Lit
-            $21, -- PartialDaylight
-            $22, -- ApproachBearing
-            $23, -- Description
-            $24, -- InvolvedGroupDescription
-            $25, -- CasualtyFatality
-            $26, -- CasualtyHospital
-            $27, -- CasualtyMedicallyTreated
-            $28, -- CasualtyMinorInjury
-            $29, -- InvolvedCar
-            $30, -- InvolvedMotorcycle
-            $31, -- InvolvedTruck
-            $32, -- InvolvedBus
-            $33, -- InvolvedBicycle
-            $34, -- InvolvedPedestrian
-            $35 -- InvolvedOther
+            ST_GeographyFromText($9),
+            $10, -- Street
+            $11, -- StreetIntersecting
+            $12, -- Suburb
+            $13, -- Council
+            $14, -- Postcode
+            $15, -- SpeedLimit
+            $16, -- Sealed
+            $17, -- Dry
+            $18, -- Day
+            $19, -- Lit
+            $20, -- PartialDaylight
+            $21, -- ApproachBearing
+            $22, -- Description
+            $23, -- InvolvedGroupDescription
+            $24, -- CasualtyFatality
+            $25, -- CasualtyHospital
+            $26, -- CasualtyMedicallyTreated
+            $27, -- CasualtyMinorInjury
+            $28, -- InvolvedCar
+            $29, -- InvolvedMotorcycle
+            $30, -- InvolvedTruck
+            $31, -- InvolvedBus
+            $32, -- InvolvedBicycle
+            $33, -- InvolvedPedestrian
+            $34 -- InvolvedOther
         );
     """
     stmt = await db.prepare(insert_row)
@@ -378,8 +378,7 @@ async def import_crashdata(db):
                     data['Crash_Traffic_Control'],
                     data['Crash_Atmospheric_Condition'],
                     datetime.datetime.strptime(f"{data['Crash_Year']} {data['Crash_Month']} {data['Crash_Hour']}", "%Y %B %H"),
-                    data['Crash_Longitude_GDA94'],
-                    data['Crash_Latitude_GDA94'],
+                    f"SRID=4283;POINT({data['Crash_Longitude_GDA94']} {data['Crash_Latitude_GDA94']})",
                     data['Crash_Street'],
                     data['Crash_Street_Intersecting'],
                     data['Loc_Suburb'],
