@@ -90,6 +90,25 @@ function initMap() {
   enableApply();
 }
 
+function parseData() {
+  var returnedData = JSON.parse(this.responseText);
+  var vector = new ol.source.Vector();
+  returnedData.forEach((item, i) => {
+    var point = new ol.geom.Point(ol.proj.fromLonLat(item.location[1], item.location[0]));
+    var pointFeature = new ol.Feature({
+      geometry: point,
+      weight: item.SeverityIndex
+    });
+    vector.addFeature(pointFeature);
+  });
+  var heatmapLayer = new ol.layer.Heatmap({
+    source: vector,
+    radius: 10
+  });
+  heatmapLayer.set("name", "heatmap")
+  map.addLayer(heatmapLayer);
+}
+
 function generateHeatMapPoints() {
   map.getLayers().getArray()
       .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
