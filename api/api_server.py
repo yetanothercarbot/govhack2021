@@ -130,8 +130,7 @@ class Webserver:
 
         return await self.loop.create_server(app.make_handler(), address, port)
 
-
-if __name__ == '__main__':
+async def start_webserver(loop):
     pool = await asyncpg.create_pool(user=settings['psql_user'], password=settings['psql_pass'],
         database=settings['psql_dbname'], host=settings['psql_host'])
 
@@ -152,9 +151,12 @@ if __name__ == '__main__':
         format='binary',
     )
 
-    loop = asyncio.get_event_loop()
     webserver = Webserver(pool, loop)
-    loop.run_until_complete(webserver.build_server(loop, 'localhost', 9999))
+    await webserver.build_server(loop, 'localhost', 9999)
+
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(start_webserver(loop))
     print("Server ready!")
 
     try:
