@@ -63,8 +63,11 @@ function initControls() {
   });
 
   // Initialise all dropdowns
-  var elems = document.querySelectorAll('select');
-  var instances = M.FormSelect.init(elems);
+  var selects = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(selects);
+
+  var sidenavs = document.querySelectorAll('.sidenav');
+  var instances = M.Sidenav.init(sidenavs);
 }
 
 function initMap() {
