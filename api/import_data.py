@@ -350,6 +350,8 @@ async def import_crashdata(db):
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
             unknown_to_zero = (
+                    'Crash_Ref_Number',
+                    'Loc_Post_Code',
                     'Count_Casualty_Fatality',
                     'Count_Casualty_Hospitalised',
                     'Count_Casualty_MedicallyTreated',
