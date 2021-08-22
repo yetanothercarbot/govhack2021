@@ -317,7 +317,7 @@ async def import_crashdata(db):
             (SELECT ID FROM TrafficControl WHERE NAME = $6),
             (SELECT ID FROM AtmosphericCondition WHERE NAME = $7),
             $8, -- CrashDate
-            ST_GeographyFromText($9),
+            ST_GeographyFromText($9::text),
             $10, -- Street
             $11, -- StreetIntersecting
             $12, -- Suburb
