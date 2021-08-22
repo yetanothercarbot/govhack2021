@@ -348,6 +348,7 @@ async def import_crashdata(db):
     """
     stmt = await db.prepare(insert_row)
 
+    queue = []
     num = 1
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
@@ -412,7 +413,11 @@ async def import_crashdata(db):
                             data['Count_Unit_Other']
                         ]
 
-                    await stmt.executemany([args])
+                    queue.append(args)
+
+                    if len(queue) >= 100:
+                        await stmt.executemany(queue)
+                        queue = []
             except:
                 print(f"Record failed")
 
