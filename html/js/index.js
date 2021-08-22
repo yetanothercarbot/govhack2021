@@ -87,7 +87,7 @@ function initMap() {
       constrainOnlyCenter: true
     })
   });
-  enableApply();
+  updateMap();
 }
 
 function parseData(returnedData) {
@@ -185,8 +185,8 @@ function updateMap() {
   boundingBox = map.getView().calculateExtent(map.getSize());
 
   // These are commented out so that data from the entire state is fetched.
-  // requestBody.corner1 = ol.proj.transform(boundingBox.slice(0,2), 'EPSG:3857', 'EPSG:4326');
-  //requestBody.corner2 = ol.proj.transform(boundingBox.slice(2,4), 'EPSG:3857', 'EPSG:4326');
+  requestBody.corner1 = ol.proj.toLonLat(boundingBox.slice(0,2));
+  requestBody.corner2 = ol.proj.toLonLat(boundingBox.slice(2,4));
   requestBody.yearmax = parseInt(document.getElementById("dateMax").value);
   requestBody.yearmin = parseInt(document.getElementById("dateMin").value);
   requestBody.vehicle_types = [];
