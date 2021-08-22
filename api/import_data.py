@@ -36,7 +36,7 @@ ROAD_CENSUS_URLS = {
     2020: "https://www.data.qld.gov.au/dataset/5d74e022-a302-4f40-a594-f1840c92f671/resource/1f52e522-7cb8-451c-b4c2-8467a087e883/download/trafficcensus2020.csv",
 }
 
-ROAD_CRASHES_URL: "https://www.data.qld.gov.au/dataset/f3e0ca94-2d7b-44ee-abef-d6b06e9b0729/resource/e88943c0-5968-4972-a15f-38e120d72ec0/download/1_crash_locations.csv"
+ROAD_CRASHES_URL = "https://www.data.qld.gov.au/dataset/f3e0ca94-2d7b-44ee-abef-d6b06e9b0729/resource/e88943c0-5968-4972-a15f-38e120d72ec0/download/1_crash_locations.csv"
 
 CREATE_CRASH_LOCATIONS_TABLE = """
 CREATE TABLE IF NOT EXISTS CrashLocations (
