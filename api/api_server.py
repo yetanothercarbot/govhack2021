@@ -46,7 +46,7 @@ class Webserver:
         request_json = await request.json()
 
         sql = """
-        SELECT ID, SeverityIndex, NearestAADT, ST_Transform(Location::geometry, 'EPSG:4283') AS Location
+        SELECT ID, SeverityIndex, NearestAADT, ST_Transform(Location::geometry, 4283) AS Location
         FROM CrashLocations
         {}
         ORDER BY SeverityIndex DESC
