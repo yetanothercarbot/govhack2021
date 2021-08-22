@@ -335,6 +335,26 @@ async def import_crashdata(db):
 
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
+            unknown_to_zero = (
+                    'Count_Casualty_Fatality',
+                    'Count_Casualty_Hospitalised',
+                    'Count_Casualty_MedicallyTreated',
+                    'Count_Casualty_MinorInjury',
+                    'Count_Unit_Car',
+                    'Count_Unit_Motorcycle_Moped',
+                    'Count_Unit_Truck',
+                    'Count_Unit_Bus',
+                    'Count_Unit_Bicycle',
+                    'Count_Unit_Pedestrian',
+                    'Count_Unit_Other',
+                )
+            for key in unknown_to_zero:
+                if key in data:
+                    try:
+                        data[key] = int(data[key])
+                    except:
+                        data[key] = 0
+
             args = [
                     data['Crash_Ref_Number'],
                     data['Crash_Severity'],
