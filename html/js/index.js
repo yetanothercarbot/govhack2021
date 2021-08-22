@@ -103,15 +103,18 @@ function parseData(returnedData) {
   var heatmapLayers = map.getLayers().getArray()
       .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
 
-  if heatmapLayers.length > 0:
+  if (heatmapLayers.length > 0) {
       heatmapLayers[0].setSource(vector);
-  else:
+  } else {
     var heatmapLayer = new ol.layer.Heatmap({
       source: vector,
       radius: 8
     });
-  heatmapLayer.set("name", "heatmap")
+  }
+
+  heatmapLayer.set("name", "heatmap");
   map.addLayer(heatmapLayer);
+  enableApply();
 }
 
 function generateHeatMapPoints() {
