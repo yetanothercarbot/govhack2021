@@ -231,7 +231,7 @@ async def read_csv_by_line(url):
         keys = None
         async with session.get(url) as r:
             async for line in r.content:
-                dataline = line.decode("utf-8").split(',')
+                dataline = line.decode("utf-8").strip().split(',')
                 if keys == None:
                     keys = dataline
                 else:
