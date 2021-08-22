@@ -15,6 +15,7 @@ import asyncio
 import asyncpg
 import aiohttp
 import datetime
+import sys
 
 import shapely.geometry
 import shapely.wkb
@@ -347,6 +348,7 @@ async def import_crashdata(db):
     """
     stmt = await db.prepare(insert_row)
 
+    num = 1
     async with db.transaction():
         async for data in read_csv_by_line(ROAD_CRASHES_URL):
             unknown_to_zero = (
@@ -409,6 +411,10 @@ async def import_crashdata(db):
                 ]
 
             await stmt.executemany([args])
+
+            sys.stdout.write("\r Processing record: %i" % num)
+            sys.stdout.flush()
+            num += 1
 
     print(f"Copied crashdata.")
 
