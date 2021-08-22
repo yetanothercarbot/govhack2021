@@ -48,8 +48,7 @@ class Webserver:
         sql = """
         SELECT ID, SeverityIndex, NearestAADT, Location
         FROM CrashLocations
-        WHERE
-            {}
+        {}
         ORDER BY SeverityIndex DESC
         LIMIT 1000
         """
@@ -66,11 +65,11 @@ class Webserver:
 
         # Years
         if 'yearmax' in request_json:
-            conditions.append(("EXTRACT(YEAR FROM TIMESTAMP CrashDate) <= {}",
+            conditions.append(("EXTRACT(YEAR FROM CrashDate) <= {}",
                 [request_json['yearmax']]))
 
         if 'yearmin' in request_json:
-            conditions.append(("EXTRACT(YEAR FROM TIMESTAMP CrashDate) >= {}",
+            conditions.append(("EXTRACT(YEAR FROM CrashDate) >= {}",
                 [request_json['yearmin']]))
 
         conditions_compiled = "\nAND ".join([c[0] for c in conditions])
@@ -81,14 +80,27 @@ class Webserver:
             condition_variables.extend(condition[1])
             current_var += len(condition[1])
 
-        conditions_compiled.format(*[f'${n}' for n in range(current_var)])
+        conditions_compiled = conditions_compiled.format(*[f'${n}' for n in range(1, current_var)])
 
-        sql.format(conditions_compiled)
+        sql = sql.format(conditions_compiled and "WHERE " + conditions_compiled or ' ')
+
+        # Debugging
+        # print(condition_variables)
+        # print(conditions)
+        # print(conditions_compiled)
+        # print(sql)
+        # print([f'${n}' for n in range(1, current_var)])
 
         async with self.pool.acquire() as con:
             results = await con.fetch(sql, *condition_variables)
 
-        return aiohttp.web.json_response(results, status=200)
+        parse_to_json = []
+        for result in results:
+            result = dict(result)
+            result['location'] = (result['location'].x, result['location'].y)
+            parse_to_json.append(result)
+
+        return web.json_response(parse_to_json, status=200)
 
     '''
     Get a specific crash by ID
