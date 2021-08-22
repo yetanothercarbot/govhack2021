@@ -58,10 +58,10 @@ class Webserver:
 
         # Boundaries
         if 'corner1' in request_json and 'corner2' in request_json:
-             conditions.append(
-                ("Location::geometry @ ST_MakeEnvelope ({}, {}, {}, {}, 3857)",
-                    [request_json['corner1'][0], request_json['corner1'][1],
-                    request_json['corner2'][0], request_json['corner2'][1]]))
+            conditions.append(
+                ("ST_X(ST_Transform(Location::geometry, 4283)) <= {} AND ST_X(ST_Transform(Location::geometry, 4283)) >= {} AND ST_Y(ST_Transform(Location::geometry, 4283)) <= {} AND ST_Y(ST_Transform(Location::geometry, 4283)) >= {}",
+                    [request_json['corner2'][0], request_json['corner1'][0],
+                    request_json['corner2'][1], request_json['corner1'][1]]))
 
         # Years
         if 'yearmax' in request_json:
@@ -85,10 +85,10 @@ class Webserver:
         sql = sql.format(conditions_compiled and "WHERE " + conditions_compiled or ' ')
 
         # Debugging
-        # print(condition_variables)
-        # print(conditions)
-        # print(conditions_compiled)
-        # print(sql)
+        print(condition_variables)
+        print(conditions)
+        print(conditions_compiled)
+        print(sql)
         # print([f'${n}' for n in range(1, current_var)])
 
         async with self.pool.acquire() as con:

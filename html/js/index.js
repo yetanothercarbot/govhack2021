@@ -87,10 +87,22 @@ function initMap() {
       constrainOnlyCenter: true
     })
   });
+  //enableApply();
   updateMap();
 }
 
 function parseData(returnedData) {
+  // var heatmapLayers = map.getLayers().getArray()
+  //     .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
+
+  // var vector;
+  // if (heatmapLayers.length > 0) {
+  //   vector = heatmapLayers[0].getSource();
+  //   vector.clear();
+  // } else {
+  //   vector = new ol.source.Vector();
+  // }
+
   var vector = new ol.source.Vector();
   returnedData.forEach((item, i) => {
     var point = new ol.geom.Point(ol.proj.fromLonLat([item.location[0], item.location[1]]));
@@ -100,22 +112,33 @@ function parseData(returnedData) {
     });
     vector.addFeature(pointFeature);
   });
-  var heatmapLayers = map.getLayers().getArray()
-      .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
 
-  var heatmapLayer;
-  if (heatmapLayers.length > 0) {
-      heatmapLayer = heatmapLayers[0];
-      heatmapLayers[0].setSource(vector);
-  } else {
-    heatmapLayer = new ol.layer.Heatmap({
-      source: vector,
-      radius: 8
-    });
-    heatmapLayer.set("name", "heatmap");
-    map.addLayer(heatmapLayer);
-  }
-  //enableApply();
+  // var heatmapLayer;
+  // if (heatmapLayers.length > 0) {
+  //     heatmapLayer = heatmapLayers[0];
+  //     heatmapLayers[0].getSource().refresh();
+  //     heatmapLayers[0].changed();
+  // } else {
+  //   heatmapLayer = new ol.layer.Heatmap({
+  //     source: vector,
+  //     radius: 8
+  //   });
+  //   heatmapLayer.set("name", "heatmap");
+  //   map.addLayer(heatmapLayer);
+  // }
+
+  var layers = new Array();
+  map.getLayers().getArray()
+      .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
+      .forEach(layer => map.removeLayer(layer));
+
+  var heatmapLayer = new ol.layer.Heatmap({
+    source: vector,
+    radius: 8
+  });
+  heatmapLayer.set("name", "heatmap");
+  map.addLayer(heatmapLayer);
+  enableApply();
 }
 
 function generateHeatMapPoints() {
