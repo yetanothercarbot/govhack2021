@@ -43,7 +43,7 @@ class Webserver:
     ordered from least to most severe in JSON format.
     '''
     async def list_crashes(self, request):
-        request_json = request.json()
+        request_json = await request.json()
 
         sql = """
         SELECT ID, SeverityIndex, NearestAADT, Location
