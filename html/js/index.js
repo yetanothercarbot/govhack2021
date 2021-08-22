@@ -91,9 +91,6 @@ function initMap() {
 }
 
 function parseData(returnedData) {
-  map.getLayers().getArray()
-      .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
-      .forEach(layer => map.removeLayer(layer));
   var vector = new ol.source.Vector();
   returnedData.forEach((item, i) => {
     var point = new ol.geom.Point(ol.proj.fromLonLat([item.location[0], item.location[1]]));
@@ -103,10 +100,15 @@ function parseData(returnedData) {
     });
     vector.addFeature(pointFeature);
   });
+  var layers = new Array();
+  map.getLayers().getArray()
+      .filter(layer => layer.get('name') == 'heatmap' || layer.get('name') == 'bubble')
+      .forEach(layer => layers.push(layer));
   var heatmapLayer = new ol.layer.Heatmap({
     source: vector,
     radius: 8
   });
+  layers.forEach(layer => map.removeLayer(layer))
   heatmapLayer.set("name", "heatmap")
   map.addLayer(heatmapLayer);
 }
