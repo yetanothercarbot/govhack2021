@@ -135,6 +135,23 @@ if __name__ == '__main__':
     pool = await asyncpg.create_pool(user=settings['psql_user'], password=settings['psql_pass'],
         database=settings['psql_dbname'], host=settings['psql_host'])
 
+    def encode_geometry(geometry):
+        if not hasattr(geometry, '__geo_interface__'):
+            raise TypeError('{g} does not conform to '
+                            'the geo interface'.format(g=geometry))
+        shape = shapely.geometry.asShape(geometry)
+        return shapely.wkb.dumps(shape)
+
+    def decode_geometry(wkb):
+        return shapely.wkb.loads(wkb)
+
+    await pool.set_type_codec(
+        'geography',
+        encoder=encode_geometry,
+        decoder=decode_geometry,
+        format='binary',
+    )
+
     loop = asyncio.get_event_loop()
     webserver = Webserver(pool, loop)
     loop.run_until_complete(webserver.build_server(loop, 'localhost', 9999))
