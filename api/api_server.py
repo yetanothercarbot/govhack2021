@@ -3,6 +3,10 @@ import asyncpg
 import json
 from aiohttp import web
 
+import shapely.geometry
+import shapely.wkb
+from shapely.geometry.base import BaseGeometry
+
 settings = {}
 
 # Read SQL Auth data
@@ -132,25 +136,26 @@ class Webserver:
         return await self.loop.create_server(app.make_handler(), address, port)
 
 async def start_webserver(loop):
+    async def init_connection(conn):
+        def encode_geometry(geometry):
+            if not hasattr(geometry, '__geo_interface__'):
+                raise TypeError('{g} does not conform to '
+                                'the geo interface'.format(g=geometry))
+            shape = shapely.geometry.asShape(geometry)
+            return shapely.wkb.dumps(shape)
+
+        def decode_geometry(wkb):
+            return shapely.wkb.loads(wkb)
+
+        await conn.set_type_codec(
+            'geography',
+            encoder=encode_geometry,
+            decoder=decode_geometry,
+            format='binary',
+        )
+
     pool = await asyncpg.create_pool(user=settings['psql_user'], password=settings['psql_pass'],
-        database=settings['psql_dbname'], host=settings['psql_host'])
-
-    def encode_geometry(geometry):
-        if not hasattr(geometry, '__geo_interface__'):
-            raise TypeError('{g} does not conform to '
-                            'the geo interface'.format(g=geometry))
-        shape = shapely.geometry.asShape(geometry)
-        return shapely.wkb.dumps(shape)
-
-    def decode_geometry(wkb):
-        return shapely.wkb.loads(wkb)
-
-    await pool.set_type_codec(
-        'geography',
-        encoder=encode_geometry,
-        decoder=decode_geometry,
-        format='binary',
-    )
+        database=settings['psql_dbname'], host=settings['psql_host'], init=init_connection)
 
     webserver = Webserver(pool, loop)
     await webserver.build_server(loop, 'localhost', 9999)
